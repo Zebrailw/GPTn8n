@@ -18,7 +18,17 @@ Single-user workflow automation builder inspired by n8n. Build workflows visuall
 /packages/shared # Shared node definitions + types
 ```
 
-## Setup
+## Quick start (Windows)
+
+Run the one-click script from the repo root:
+
+```
+run.bat
+```
+
+This installs dependencies, runs Prisma migrations, starts the server and web app, and opens the app at `http://localhost:5173`.
+
+## Setup (manual)
 
 1. Copy env:
 
