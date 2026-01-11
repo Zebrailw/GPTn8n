@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Workflow {
+  id        String   @id @default(cuid())
+  name      String
+  active    Boolean  @default(false)
+  nodes     Json
+  edges     Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  executions Execution[]
+  webhooks   WebhookEndpoint[]
+}
+
+model Execution {
+  id         String   @id @default(cuid())
+  workflowId String
+  status     String
+  startedAt  DateTime @default(now())
+  finishedAt DateTime?
+  error      String?
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+  steps      ExecutionStep[]
+}
+
+model ExecutionStep {
+  id          String   @id @default(cuid())
+  executionId String
+  nodeId      String
+  status      String
+  startedAt   DateTime @default(now())
+  finishedAt  DateTime?
+  input       Json?
+  output      Json?
+  error       String?
+  execution   Execution @relation(fields: [executionId], references: [id])
+}
+
+model WebhookEndpoint {
+  id         String   @id @default(cuid())
+  workflowId String
+  path       String
+  method     String
+  nodeId     String
+  workflow   Workflow @relation(fields: [workflowId], references: [id])
+}

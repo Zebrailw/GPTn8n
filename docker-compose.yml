@@ -1,0 +1,25 @@
+version: '3.9'
+services:
+  server:
+    build: ./apps/server
+    command: npm run dev
+    working_dir: /app
+    volumes:
+      - ./apps/server:/app
+      - ./packages:/packages
+      - ./apps/web/dist:/app/../web/dist
+    ports:
+      - '4000:4000'
+    environment:
+      - DATABASE_URL=file:/app/dev.db
+  web:
+    build: ./apps/web
+    command: npm run dev -- --host
+    working_dir: /app
+    volumes:
+      - ./apps/web:/app
+      - ./packages:/packages
+    ports:
+      - '5173:5173'
+    depends_on:
+      - server

@@ -1,0 +1,6 @@
+node_modules
+.env
+apps/server/dev.db
+apps/server/prisma/dev.db
+apps/web/dist
+packages/shared/dist
