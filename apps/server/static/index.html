@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Automation Builder</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <input id="workflow-name" class="workflow-name" />
+        <div class="topbar-actions">
+          <button id="save-btn">Save</button>
+          <button id="run-btn">Run</button>
+          <label class="toggle">
+            <input id="active-toggle" type="checkbox" />
+            Active
+          </label>
+        </div>
+      </header>
+      <div class="content">
+        <aside class="palette">
+          <h3>Nodes</h3>
+          <input id="node-search" placeholder="Search" />
+          <div id="palette-list" class="palette-list"></div>
+        </aside>
+        <main class="canvas">
+          <div id="canvas" class="canvas-area">
+            <svg id="edges" class="edges"></svg>
+            <div id="nodes" class="nodes-layer"></div>
+          </div>
+          <section class="executions">
+            <h3>Executions</h3>
+            <div class="executions-content">
+              <ul id="executions-list"></ul>
+              <div id="execution-details" class="execution-details">
+                <p>Select an execution to inspect.</p>
+              </div>
+            </div>
+          </section>
+        </main>
+        <aside class="settings">
+          <h3>Node Settings</h3>
+          <div id="node-settings">Select a node to edit its parameters.</div>
+        </aside>
+      </div>
+    </div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
