@@ -1,0 +1,12 @@
+{
+  "name": "personal-automation-builder",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run -w @pab/web dev",
+    "build:web": "npm run -w @pab/web build"
+  }
+}
