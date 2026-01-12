@@ -1,0 +1,5 @@
+node_modules
+.env
+apps/server/dev.db
+apps/web/dist
+packages/shared/dist
