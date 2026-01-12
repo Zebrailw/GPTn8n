@@ -7,24 +7,23 @@ if not exist .env (
   )
 )
 
-echo Installing dependencies...
-npm install
+if not exist .venv (
+  echo Creating virtual environment...
+  python -m venv .venv
+)
+
+call .venv\Scripts\activate
+
+python -m pip install --upgrade pip
+pip install -r apps\server\requirements.txt
 if errorlevel 1 (
-  echo Failed to install dependencies.
+  echo Failed to install Python dependencies.
   exit /b 1
 )
 
-echo Generating Prisma client...
-npm run -w @pab/server prisma:generate
-if errorlevel 1 exit /b 1
+echo Starting server...
+start "pab-server" cmd /k "cd /d apps\server && uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
 
-echo Running migrations...
-npm run -w @pab/server prisma:migrate
-if errorlevel 1 exit /b 1
-
-echo Starting server and web...
-start "pab-server" cmd /k "npm run dev:server"
-start "pab-web" cmd /k "npm run dev:web"
-
-echo Open http://localhost:5173 in your browser.
+echo Open http://localhost:8000 in your browser.
+start http://localhost:8000
 endlocal

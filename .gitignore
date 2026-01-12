@@ -1,6 +1,5 @@
-node_modules
+.venv
+__pycache__
+*.pyc
 .env
-apps/server/dev.db
-apps/server/prisma/dev.db
-apps/web/dist
-packages/shared/dist
+*.db
