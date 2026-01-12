@@ -31,7 +31,7 @@ const emptyWorkflow = (): Omit<WorkflowApiRecord, 'id'> => ({
     {
       id: 'node-1',
       type: 'manualTrigger',
-      position: { x: 100, y: 100 },
+      position: { x: 120, y: 120 },
       data: { label: 'Manual Trigger', params: {} }
     }
   ],

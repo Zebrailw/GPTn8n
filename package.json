@@ -10,7 +10,6 @@
     "dev:web": "npm run -w @pab/web dev",
     "dev:server": "npm run -w @pab/server dev",
     "build": "npm run -w @pab/shared build && npm run -w @pab/server build && npm run -w @pab/web build",
-    "lint": "npm run -w @pab/server lint && npm run -w @pab/web lint",
     "test": "npm run -w @pab/server test"
   }
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import vm from 'node:vm';
+import { VM } from 'vm2';
 
 export type Items = Array<Record<string, unknown>>;
 
@@ -10,6 +10,7 @@ export interface NodeExecuteContext {
 export interface NodeExecutionResult {
   default?: Items;
   outputs?: Record<string, Items>;
+  logs?: string[];
 }
 
 export type NodeExecute = (
@@ -82,23 +83,25 @@ export const nodeHandlers: Record<string, NodeExecute> = {
       throw new Error('Code node requires code');
     }
     const logs: string[] = [];
-    const sandbox = {
-      items,
-      console: {
-        log: (...args: unknown[]) => {
-          logs.push(args.map((arg) => JSON.stringify(arg)).join(' '));
+    const vm = new VM({
+      timeout: 1000,
+      sandbox: {
+        items,
+        console: {
+          log: (...args: unknown[]) => {
+            logs.push(args.map((arg) => JSON.stringify(arg)).join(' '));
+          }
         }
-      }
-    };
-    const script = new vm.Script(
-      `(function() { const userFn = ${code}; return userFn(items); })()`
-    );
-    const result = script.runInNewContext(sandbox, { timeout: 1000 });
+      },
+      eval: false,
+      wasm: false
+    });
+    const result = vm.run(`(function() { const userFn = ${code}; return userFn(items); })()`);
     if (!Array.isArray(result)) {
       throw new Error('Code node must return an array of items');
     }
     context.logger.info('Code node logs', { logs });
-    return { default: result as Items };
+    return { default: result as Items, logs };
   },
   if: async (params, items) => {
     const field = String(params?.field ?? '');

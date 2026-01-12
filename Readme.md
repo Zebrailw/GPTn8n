@@ -1,17 +1,21 @@
-# Personal Automation Builder (Python MVP)
+# Personal Automation Builder (MVP)
 
 Single-user workflow automation builder inspired by n8n. Build workflows visually, run them manually or on cron schedules, and inspect execution history.
 
 ## Stack
 
-- Backend + UI: FastAPI (Python) serving a static editor
-- Database: SQLite + SQLAlchemy
-- Scheduler: APScheduler
+- Frontend: React + TypeScript + Vite + ReactFlow
+- Backend: Node.js + TypeScript + Fastify
+- Database: SQLite + Prisma
+- Scheduler: node-cron
+- Shared types: `/packages/shared`
 
 ## Project structure
 
 ```
-/apps/server   # FastAPI API + runtime engine + static UI
+/apps/server   # Fastify API + runtime engine
+/apps/web      # React UI
+/packages/shared # Shared node definitions + types
 ```
 
 ## Quick start (Windows)
@@ -22,7 +26,7 @@ Run the one-click script from the repo root:
 run.bat
 ```
 
-This installs dependencies, starts the server, and opens the app at `http://localhost:8000`.
+This installs dependencies, runs Prisma migrations, starts the server and web app, and opens the app at `http://localhost:5173`.
 
 ## Setup (manual)
 
@@ -32,22 +36,28 @@ This installs dependencies, starts the server, and opens the app at `http://loca
 cp .env.example .env
 ```
 
-2. Create a virtual environment and install dependencies:
+2. Install dependencies and run database migration:
 
 ```
-python -m venv .venv
-.venv/Scripts/activate
-pip install -r apps/server/requirements.txt
+npm install
+npm run -w @pab/server prisma:generate
+npm run -w @pab/server prisma:migrate
 ```
 
-3. Run the server:
+3. Run server and web (separate terminals):
 
 ```
-cd apps/server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+npm run dev:server
+npm run dev:web
 ```
 
-The API and UI run at `http://localhost:8000`.
+The API runs at `http://localhost:4000` and the web app at `http://localhost:5173`.
+
+## Docker (dev)
+
+```
+docker-compose up --build
+```
 
 ## API
 

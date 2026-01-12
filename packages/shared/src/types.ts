@@ -37,6 +37,8 @@ export interface WorkflowEdge {
   targetHandle?: string | null;
 }
 
+export type ExecutionStatus = 'running' | 'success' | 'failed';
+
 export interface WorkflowRecord {
   id: string;
   name: string;
@@ -46,8 +48,6 @@ export interface WorkflowRecord {
   createdAt: string;
   updatedAt: string;
 }
-
-export type ExecutionStatus = 'running' | 'success' | 'failed';
 
 export interface ExecutionRecord {
   id: string;

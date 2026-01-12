@@ -1,5 +1,5 @@
-.venv
-__pycache__
-*.pyc
+node_modules
 .env
-*.db
+apps/server/dev.db
+apps/web/dist
+packages/shared/dist

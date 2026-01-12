@@ -76,12 +76,17 @@ export const executeWorkflow = async (
 
       const result = await handler(node.data?.params, items, context);
       const outputDefault = result.default ?? [];
+      const outputPayload = result.outputs ?? outputDefault;
+      const outputWithLogs = result.logs
+        ? { output: outputPayload, logs: result.logs }
+        : outputPayload;
+
       await prisma.executionStep.update({
         where: { id: step.id },
         data: {
           status: 'success',
           finishedAt: new Date(),
-          output: result.outputs ?? outputDefault
+          output: outputWithLogs
         }
       });
 

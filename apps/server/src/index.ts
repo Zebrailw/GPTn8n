@@ -133,8 +133,12 @@ app.put('/api/workflows/:id', async (request, reply) => {
   return workflow;
 });
 
-app.delete('/api/workflows/:id', async (request) => {
+app.delete('/api/workflows/:id', async (request, reply) => {
   const { id } = request.params as { id: string };
+  const workflow = await prisma.workflow.findUnique({ where: { id } });
+  if (!workflow) {
+    return reply.code(404).send({ error: { message: 'Workflow not found' } });
+  }
   await prisma.webhookEndpoint.deleteMany({ where: { workflowId: id } });
   await prisma.executionStep.deleteMany({
     where: { execution: { workflowId: id } }
